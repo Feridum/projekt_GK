@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class HeroController : MonoBehaviour
+public class HeroController : NetworkBehaviour
 {
     private Animator anim;
     private float t;
@@ -27,66 +28,69 @@ public class HeroController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (target == transform.position)
+        if (this.isLocalPlayer)
         {
-            t = 0;
-            startingPosition = transform.position;
-            rotation = transform.rotation;
-            if (Input.GetKey(moveLeft))
+            if (target == transform.position)
             {
-                target = startingPosition;
-                if (canMoveInX(target, -1)) {
-                    target.x += -3;
-                }
-                rotation = Quaternion.Euler(0, 90, 0);
-                anim.SetTrigger("Move");
-            }
-            else if (Input.GetKey(moveRight))
-            {
-                target = startingPosition;
-                if (canMoveInX(target, 1))
+                t = 0;
+                startingPosition = transform.position;
+                rotation = transform.rotation;
+                if (Input.GetKey(moveLeft))
                 {
-                    target.x += 3;
+                    target = startingPosition;
+                    if (canMoveInX(target, -1))
+                    {
+                        target.x += -3;
+                    }
+                    rotation = Quaternion.Euler(0, 90, 0);
+                    anim.SetTrigger("Move");
                 }
-                rotation = Quaternion.Euler(0, -90, 0);
-                anim.SetTrigger("Move");
-            }
-            else if (Input.GetKey(moveUp))
-            {
-                target = startingPosition;
-                if (canMoveInZ(target, 1))
+                else if (Input.GetKey(moveRight))
                 {
-                    target.z += 3;
+                    target = startingPosition;
+                    if (canMoveInX(target, 1))
+                    {
+                        target.x += 3;
+                    }
+                    rotation = Quaternion.Euler(0, -90, 0);
+                    anim.SetTrigger("Move");
                 }
-                rotation = Quaternion.Euler(0, 180, 0);
-                anim.SetTrigger("Move");
-            }
-            else if (Input.GetKey(moveDown))
-            {
-                target = startingPosition;
-                if (canMoveInZ(target, -1))
+                else if (Input.GetKey(moveUp))
                 {
-                    target.z += -3;
+                    target = startingPosition;
+                    if (canMoveInZ(target, 1))
+                    {
+                        target.z += 3;
+                    }
+                    rotation = Quaternion.Euler(0, 180, 0);
+                    anim.SetTrigger("Move");
                 }
-                rotation = Quaternion.Euler(0, 0, 0);
-                anim.SetTrigger("Move");
+                else if (Input.GetKey(moveDown))
+                {
+                    target = startingPosition;
+                    if (canMoveInZ(target, -1))
+                    {
+                        target.z += -3;
+                    }
+                    rotation = Quaternion.Euler(0, 0, 0);
+                    anim.SetTrigger("Move");
+                }
             }
-        }
-        if (Input.GetKey(plantBomb))
-        {
-            anim.SetTrigger("PlantBomb");
-        }
-        if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
-        {
-            anim.SetTrigger("Stop");
-        }
-        t += Time.deltaTime / moveSpeed;
-        transform.position = Vector3.Lerp(transform.position, target, t);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
+            if (Input.GetKey(plantBomb))
+            {
+                anim.SetTrigger("PlantBomb");
+            }
+            if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
+            {
+                anim.SetTrigger("Stop");
+            }
+            t += Time.deltaTime / moveSpeed;
+            transform.position = Vector3.Lerp(transform.position, target, t);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
 
-
+        }
     }
 
     private bool canMoveInX(Vector3 target, int direction)
