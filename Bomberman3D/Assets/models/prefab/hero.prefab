@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 95467901957770640}
   - component: {fileID: 114913228959512764}
   - component: {fileID: 114833433221542186}
+  - component: {fileID: 114769871837883938}
   - component: {fileID: 114723341731931766}
   m_Layer: 0
   m_Name: hero
@@ -697,7 +698,7 @@ Animator:
   m_GameObject: {fileID: 1352575243138226}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8e9dd232a3266b447838b8292f92563d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 83cf0c57fa6627b4e8b7fe05f950cc5c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -705,6 +706,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114723341731931766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -726,6 +728,26 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114769871837883938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1352575243138226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a50bfd024639e048a1cd30b0c2cd2cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  rotationSpeed: 0.1
+  moveUp: 119
+  moveDown: 115
+  moveLeft: 97
+  moveRight: 100
+  plantBomb: 32
+  bombPrefab: {fileID: 1464836803554648, guid: 806dcbf2bf2b62144bde2a5751910e76, type: 2}
+  currentBomb: {fileID: 0}
 --- !u!114 &114833433221542186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -740,22 +762,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 79
-    i1: 8
-    i2: 78
-    i3: 242
-    i4: 72
-    i5: 10
-    i6: 0
-    i7: 180
-    i8: 89
-    i9: 43
-    i10: 212
-    i11: 147
-    i12: 94
-    i13: 204
-    i14: 38
-    i15: 165
+    i0: 221
+    i1: 127
+    i2: 189
+    i3: 185
+    i4: 86
+    i5: 106
+    i6: 238
+    i7: 244
+    i8: 72
+    i9: 68
+    i10: 179
+    i11: 203
+    i12: 160
+    i13: 83
+    i14: 227
+    i15: 27
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114913228959512764
@@ -789,6 +811,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:
@@ -850,6 +873,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:
@@ -911,6 +935,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:
@@ -972,6 +997,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:
@@ -1033,6 +1059,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:
@@ -1094,6 +1121,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_StaticBatchInfo:

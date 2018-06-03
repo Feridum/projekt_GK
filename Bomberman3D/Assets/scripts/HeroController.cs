@@ -17,7 +17,10 @@ public class HeroController : NetworkBehaviour
     public KeyCode moveLeft = KeyCode.A;
     public KeyCode moveRight = KeyCode.D;
     public KeyCode plantBomb = KeyCode.Space;
-
+    public GameObject bombPrefab;
+    public GameObject currentBomb;
+    public GameObject explodePrefab;
+    public GameObject explosion;
 
     // Use this for initialization
     void Start()
@@ -80,7 +83,13 @@ public class HeroController : NetworkBehaviour
             }
             if (Input.GetKey(plantBomb))
             {
-                anim.SetTrigger("PlantBomb");
+                    anim.SetTrigger("PlantBomb");
+                    Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x) + 1, 0, Mathf.RoundToInt(transform.position.z));
+                    //bombPrefab = GameObject.Find("bombPrefab");
+                    currentBomb = (GameObject) Instantiate(bombPrefab, roundedPosition, Quaternion.identity, transform.parent);
+                    currentBomb.GetComponent<Bomb>().bombPositionX = (int)roundedPosition.x;
+                    currentBomb.GetComponent<Bomb>().bombPositionY = (int)roundedPosition.y;
+                    //explosion = (GameObject)Instantiate(explodePrefab, roundedPosition, Quaternion.identity, transform.parent);
             }
             if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
             {
@@ -93,7 +102,7 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    private bool canMoveInX(Vector3 target, int direction)
+    public bool canMoveInX(Vector3 target, int direction)
     {
         if ((target.x > -19 && target.x < -17) || (target.x > -13 && target.x < -11) || (target.x > -7 && target.x < -5) || (target.x > -1 && target.x < 1) || (target.x > 5 && target.x < 7) || (target.x > 11 && target.x < 13) || (target.x > 17 && target.x < 19))
         {
@@ -109,7 +118,7 @@ public class HeroController : NetworkBehaviour
         return true;
     }
 
-    private bool canMoveInZ(Vector3 target, int direction)
+    public bool canMoveInZ(Vector3 target, int direction)
     {
         if ((target.z > -19 && target.z < -17) || (target.z > -13 && target.z < -11) || (target.z > -7 && target.z < -5) || (target.z > -1 && target.z < 1) || (target.z > 5 && target.z < 7) || (target.z > 11 && target.z < 13) || (target.z > 17 && target.z < 19))
         {
