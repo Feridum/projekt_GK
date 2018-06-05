@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombControllerBeta : MonoBehaviour {
+public class BombControllerBeta : MonoBehaviour
+{
     private Animator anim;
     private float timer;
     public GameObject explosionPrefab;
     private GameObject explosion;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         anim = gameObject.GetComponent<Animator>();
         timer = Time.time;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (timer+2 <= Time.time ) //change to 5
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (timer + 5 <= Time.time) //change to 5
         {
             explode();
         }
@@ -49,7 +52,7 @@ public class BombControllerBeta : MonoBehaviour {
             explosionUtil(roundedPosition);
 
         roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x - 3), 0, Mathf.RoundToInt(transform.position.z));
-       
+
         if (canExplodeLeft(roundedPosition))
             explosionUtil(roundedPosition);
     }
@@ -88,4 +91,3 @@ public class BombControllerBeta : MonoBehaviour {
         return false;
     }
 }
- 

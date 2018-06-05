@@ -23,7 +23,9 @@ public class HeroController : NetworkBehaviour
     private IdPlayer[] playersID;
     private int bombCount;
     public int bombLimit = 1;
- 
+    private GameObject[] bonuses;
+    private GameObject[] bombs;
+
 
     // Use this for initialization
     void Start()
@@ -87,29 +89,7 @@ public class HeroController : NetworkBehaviour
             }
             if (Input.GetKey(plantBomb))
             {
-                if (timer + 0.5 <= Time.time)
-                {
-                   playersID = FindObjectsOfType<IdPlayer>();
-                    bombCount = 0;
-                    foreach(IdPlayer player in playersID)
-                    {
-                        if (player.ID == this.GetInstanceID())
-                            bombCount++;
-                    }
-                    if(bombCount<=bombLimit)
-                    {
-                        Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), 0, Mathf.RoundToInt(transform.position.z));
-                        if (canPlantBomb(roundedPosition))
-                        {
-                            timer = Time.time;
-                            anim.SetTrigger("PlantBomb");
-                            currentBomb = (GameObject)Instantiate(bombPrefab, roundedPosition, Quaternion.identity, transform.parent);
-                            currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
-                        }
-
-                    }
-                }
-
+                tryAddBomb();
             }
             if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
             {
@@ -118,19 +98,71 @@ public class HeroController : NetworkBehaviour
             t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
-           
+            checkCollisionsWithBonus();
         }
     }
 
+    private void checkCollisionsWithBonus()
+    {
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //@Majki
+        //TODO change tag to bonus
+        //TODO move to breakable Wall
+        bonuses = GameObject.FindGameObjectsWithTag("breakableWall");
+        foreach (GameObject bonus in bonuses)
+        {
+            if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+            {
+                ++bombLimit;
+                Destroy(bonus);
+            }
+        }
+    }
+
+    private void tryAddBomb()
+    {
+        if (timer + 0.5 <= Time.time)
+        {
+            countPlayerBombs();
+            if (bombCount < bombLimit)
+            {
+                Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), 0, Mathf.RoundToInt(transform.position.z));
+                addBomb(roundedPosition);
+            }
+        }
+    }
+
+    private void countPlayerBombs()
+    {
+        playersID = FindObjectsOfType<IdPlayer>();
+        bombCount = 0;
+        foreach (IdPlayer player in playersID)
+        {
+            if (player.ID == this.GetInstanceID())
+                bombCount++;
+        }
+    }
+
+    private void addBomb(Vector3 position)
+    {
+        if (canPlantBomb(position))
+        {
+            timer = Time.time;
+            anim.SetTrigger("PlantBomb");
+            currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);
+            currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+        }
+    }
     private bool canPlantBomb(Vector3 position)
     {
-        if(position.x == 18 || position.x == 15 || position.x == 12 || position.x == 9 || position.x == 6 || position.x == 3 || position.x == 0  || position.x == -18 || position.x == -15 || position.x == -12 || position.x == -9 || position.x == -6 || position.x == -3)
+        if (position.x == 18 || position.x == 15 || position.x == 12 || position.x == 9 || position.x == 6 || position.x == 3 || position.x == 0 || position.x == -18 || position.x == -15 || position.x == -12 || position.x == -9 || position.x == -6 || position.x == -3)
         {
             if (position.z == 18 || position.z == 15 || position.z == 12 || position.z == 9 || position.z == 6 || position.z == 3 || position.z == 0 || position.z == -18 || position.z == -15 || position.z == -12 || position.z == -9 || position.z == -6 || position.z == -3)
                 return true;
         }
-            return false;
+        return false;
     }
+
     private bool canMoveInX(Vector3 target, int direction)
     {
         if ((target.x > -19 && target.x < -17) || (target.x > -13 && target.x < -11) || (target.x > -7 && target.x < -5) || (target.x > -1 && target.x < 1) || (target.x > 5 && target.x < 7) || (target.x > 11 && target.x < 13) || (target.x > 17 && target.x < 19))
@@ -143,6 +175,14 @@ public class HeroController : NetworkBehaviour
         if (((target.x - 3) <= -19 && direction == -1) || ((target.x + 3) >= 19 && direction == 1))
         {
             return false;
+        }
+        bombs = GameObject.FindGameObjectsWithTag("bomb");
+        foreach (GameObject bomb in bombs)
+        {
+                if ((System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x-3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction<0) || (System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x + 3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction>0))
+                {
+                return false;
+                }
         }
         return true;
     }
@@ -159,6 +199,14 @@ public class HeroController : NetworkBehaviour
         if (((target.z - 3) <= -19 && direction == -1) || ((target.z + 3) >= 19 && direction == 1))
         {
             return false;
+        }
+        bombs = GameObject.FindGameObjectsWithTag("bomb");
+        foreach (GameObject bomb in bombs)
+        {
+            if ((System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z - 3) && System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x) && direction < 0) || (System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z + 3) && System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x) && direction > 0))
+            {
+                return false;
+            }
         }
         return true;
     }

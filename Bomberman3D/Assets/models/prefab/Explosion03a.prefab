@@ -102,6 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombPositionX: 0
   bombPositionY: 0
+  bonusPrefab: {fileID: 1508847269097800, guid: f640c730fa49d5c4c8f6b9c812b223c8,
+    type: 2}
 --- !u!198 &198031077275740270
 ParticleSystem:
   m_ObjectHideFlags: 1

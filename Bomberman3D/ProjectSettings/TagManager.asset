@@ -8,6 +8,7 @@ TagManager:
   - hero
   - breagableWall
   - breakableWall
+  - bonus
   layers:
   - Default
   - TransparentFX
