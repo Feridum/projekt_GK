@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 198031077275740270}
   - component: {fileID: 199686497762900378}
   - component: {fileID: 54960052411693864}
+  - component: {fileID: 114731631962194760}
   m_Layer: 0
   m_Name: Explosion03a
   m_TagString: Untagged
@@ -88,6 +89,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!114 &114731631962194760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753089295071182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea0ad8aa64999c45b3c7bfe4383b479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombPositionX: 0
+  bombPositionY: 0
 --- !u!198 &198031077275740270
 ParticleSystem:
   m_ObjectHideFlags: 1

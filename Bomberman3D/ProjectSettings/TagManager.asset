@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - bomb
+  - hero
+  - breagableWall
+  - breakableWall
   layers:
   - Default
   - TransparentFX

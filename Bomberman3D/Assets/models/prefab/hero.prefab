@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 114723341731931766}
   m_Layer: 0
   m_Name: hero
-  m_TagString: Untagged
+  m_TagString: hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -747,7 +747,6 @@ MonoBehaviour:
   moveRight: 100
   plantBomb: 32
   bombPrefab: {fileID: 1464836803554648, guid: 806dcbf2bf2b62144bde2a5751910e76, type: 2}
-  currentBomb: {fileID: 0}
 --- !u!114 &114833433221542186
 MonoBehaviour:
   m_ObjectHideFlags: 1

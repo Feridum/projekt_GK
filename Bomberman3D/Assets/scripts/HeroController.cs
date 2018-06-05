@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class HeroController : NetworkBehaviour
 {
+    private float timer;
     private Animator anim;
     private float t;
     private Vector3 startingPosition;
@@ -18,9 +19,11 @@ public class HeroController : NetworkBehaviour
     public KeyCode moveRight = KeyCode.D;
     public KeyCode plantBomb = KeyCode.Space;
     public GameObject bombPrefab;
-    public GameObject currentBomb;
-    public GameObject explodePrefab;
-    public GameObject explosion;
+    private GameObject currentBomb;
+    private IdPlayer[] playersID;
+    private int bombCount;
+    public int bombLimit = 1;
+ 
 
     // Use this for initialization
     void Start()
@@ -28,6 +31,7 @@ public class HeroController : NetworkBehaviour
         anim = gameObject.GetComponent<Animator>();
         startingPosition = target = transform.position;
         rotation = transform.rotation;
+        timer = Time.time;
     }
 
     // Update is called once per frame
@@ -83,13 +87,29 @@ public class HeroController : NetworkBehaviour
             }
             if (Input.GetKey(plantBomb))
             {
-                    anim.SetTrigger("PlantBomb");
-                    Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x) + 1, 0, Mathf.RoundToInt(transform.position.z));
-                    //bombPrefab = GameObject.Find("bombPrefab");
-                    currentBomb = (GameObject) Instantiate(bombPrefab, roundedPosition, Quaternion.identity, transform.parent);
-                    currentBomb.GetComponent<Bomb>().bombPositionX = (int)roundedPosition.x;
-                    currentBomb.GetComponent<Bomb>().bombPositionY = (int)roundedPosition.y;
-                    //explosion = (GameObject)Instantiate(explodePrefab, roundedPosition, Quaternion.identity, transform.parent);
+                if (timer + 0.5 <= Time.time)
+                {
+                   playersID = FindObjectsOfType<IdPlayer>();
+                    bombCount = 0;
+                    foreach(IdPlayer player in playersID)
+                    {
+                        if (player.ID == this.GetInstanceID())
+                            bombCount++;
+                    }
+                    if(bombCount<=bombLimit)
+                    {
+                        Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), 0, Mathf.RoundToInt(transform.position.z));
+                        if (canPlantBomb(roundedPosition))
+                        {
+                            timer = Time.time;
+                            anim.SetTrigger("PlantBomb");
+                            currentBomb = (GameObject)Instantiate(bombPrefab, roundedPosition, Quaternion.identity, transform.parent);
+                            currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+                        }
+
+                    }
+                }
+
             }
             if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
             {
@@ -98,11 +118,20 @@ public class HeroController : NetworkBehaviour
             t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
-
+           
         }
     }
 
-    public bool canMoveInX(Vector3 target, int direction)
+    private bool canPlantBomb(Vector3 position)
+    {
+        if(position.x == 18 || position.x == 15 || position.x == 12 || position.x == 9 || position.x == 6 || position.x == 3 || position.x == 0  || position.x == -18 || position.x == -15 || position.x == -12 || position.x == -9 || position.x == -6 || position.x == -3)
+        {
+            if (position.z == 18 || position.z == 15 || position.z == 12 || position.z == 9 || position.z == 6 || position.z == 3 || position.z == 0 || position.z == -18 || position.z == -15 || position.z == -12 || position.z == -9 || position.z == -6 || position.z == -3)
+                return true;
+        }
+            return false;
+    }
+    private bool canMoveInX(Vector3 target, int direction)
     {
         if ((target.x > -19 && target.x < -17) || (target.x > -13 && target.x < -11) || (target.x > -7 && target.x < -5) || (target.x > -1 && target.x < 1) || (target.x > 5 && target.x < 7) || (target.x > 11 && target.x < 13) || (target.x > 17 && target.x < 19))
         {
@@ -118,7 +147,7 @@ public class HeroController : NetworkBehaviour
         return true;
     }
 
-    public bool canMoveInZ(Vector3 target, int direction)
+    private bool canMoveInZ(Vector3 target, int direction)
     {
         if ((target.z > -19 && target.z < -17) || (target.z > -13 && target.z < -11) || (target.z > -7 && target.z < -5) || (target.z > -1 && target.z < 1) || (target.z > 5 && target.z < 7) || (target.z > 11 && target.z < 13) || (target.z > 17 && target.z < 19))
         {
