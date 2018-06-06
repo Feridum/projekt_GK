@@ -48,7 +48,6 @@ public class ExlposionController : MonoBehaviour
             {
                 BombControllerBeta other = (BombControllerBeta)bomb.GetComponent(typeof(BombControllerBeta));
                 other.explode();
-                Debug.Log("The end");
             }
         }
 
@@ -57,6 +56,7 @@ public class ExlposionController : MonoBehaviour
         bonuses = GameObject.FindGameObjectsWithTag("breakableWall");
         foreach (GameObject bonus in bonuses)
         {
+            if(bonus != null && currentBonus != null)
             if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
             {
                 if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
