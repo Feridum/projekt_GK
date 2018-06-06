@@ -699,7 +699,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8049fecb5af8e6c47bb5426da0bd79b0, type: 3}
   m_Controller: {fileID: 9100000, guid: 83cf0c57fa6627b4e8b7fe05f950cc5c, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -747,6 +747,7 @@ MonoBehaviour:
   moveRight: 100
   plantBomb: 32
   bombPrefab: {fileID: 1464836803554648, guid: 806dcbf2bf2b62144bde2a5751910e76, type: 2}
+  bombLimit: 1
 --- !u!114 &114833433221542186
 MonoBehaviour:
   m_ObjectHideFlags: 1

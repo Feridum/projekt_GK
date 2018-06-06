@@ -41,6 +41,11 @@ public class HeroController : NetworkBehaviour
     {
         if (this.isLocalPlayer)
         {
+            if (!(Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight)))
+            {
+                anim.SetTrigger("Stop");
+            }
+            
             if (target == transform.position)
             {
                 t = 0;
@@ -86,15 +91,13 @@ public class HeroController : NetworkBehaviour
                     rotation = Quaternion.Euler(0, 0, 0);
                     anim.SetTrigger("Move");
                 }
+
             }
             if (Input.GetKey(plantBomb))
             {
                 tryAddBomb();
             }
-            if (Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight))
-            {
-                anim.SetTrigger("Stop");
-            }
+
             t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
