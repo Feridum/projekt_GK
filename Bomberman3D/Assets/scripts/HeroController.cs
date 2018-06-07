@@ -45,7 +45,7 @@ public class HeroController : NetworkBehaviour
             {
                 anim.SetTrigger("Stop");
             }
-            
+
             if (target == transform.position)
             {
                 t = 0;

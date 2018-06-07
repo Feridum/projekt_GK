@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33681219879699858}
   - component: {fileID: 65858843294714574}
   - component: {fileID: 23580335604188174}
+  - component: {fileID: 114350283549720378}
   m_Layer: 0
   m_Name: breakable wall
   m_TagString: breakableWall
@@ -96,3 +97,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114350283549720378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508847269097800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 246
+    i1: 64
+    i2: 199
+    i3: 48
+    i4: 250
+    i5: 73
+    i6: 213
+    i7: 196
+    i8: 200
+    i9: 246
+    i10: 185
+    i11: 200
+    i12: 18
+    i13: 178
+    i14: 35
+    i15: 200
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

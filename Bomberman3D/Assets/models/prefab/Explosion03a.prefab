@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 199686497762900378}
   - component: {fileID: 54960052411693864}
   - component: {fileID: 114731631962194760}
+  - component: {fileID: 114430525359668312}
   m_Layer: 0
   m_Name: Explosion03a
   m_TagString: Untagged
@@ -89,6 +90,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!114 &114430525359668312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753089295071182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 33
+    i1: 66
+    i2: 192
+    i3: 83
+    i4: 97
+    i5: 35
+    i6: 75
+    i7: 36
+    i8: 248
+    i9: 169
+    i10: 117
+    i11: 241
+    i12: 239
+    i13: 89
+    i14: 8
+    i15: 230
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114731631962194760
 MonoBehaviour:
   m_ObjectHideFlags: 1

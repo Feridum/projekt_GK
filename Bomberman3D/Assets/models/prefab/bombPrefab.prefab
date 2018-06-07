@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 95114336376287224}
   - component: {fileID: 114905642884724908}
   - component: {fileID: 54651255860496716}
+  - component: {fileID: 114254600493806568}
   m_Layer: 0
   m_Name: bombPrefab
   m_TagString: bomb
@@ -221,6 +222,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114254600493806568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464836803554648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 128
+    i1: 109
+    i2: 203
+    i3: 242
+    i4: 191
+    i5: 43
+    i6: 98
+    i7: 20
+    i8: 75
+    i9: 222
+    i10: 42
+    i11: 87
+    i12: 81
+    i13: 145
+    i14: 14
+    i15: 118
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114905642884724908
 MonoBehaviour:
   m_ObjectHideFlags: 1
