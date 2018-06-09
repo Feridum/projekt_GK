@@ -21,7 +21,6 @@ public class ExlposionController : NetworkBehaviour
     {
         HeroController = FindObjectOfType<HeroController>();
         timer = Time.time;
-        currentBonus = Instantiate(bonusPrefab, new Vector3(0,0,0), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -76,6 +75,14 @@ public class ExlposionController : NetworkBehaviour
         bonuses = GameObject.FindGameObjectsWithTag("bonus");
         foreach (GameObject bonus in bonuses)
         {
+            if (currentBonus == null)
+            {
+                if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+                {
+                    Destroy(bonus);
+                    continue;
+                }
+            }
             if (bonus != null && currentBonus != null)
                 if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
                 {
