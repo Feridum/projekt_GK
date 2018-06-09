@@ -64,13 +64,13 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 1352575243138226, guid: 4f084ef2480a00b4592bd4935ecc26a5,
     type: 2}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 0
+  m_PlayerSpawnMethod: 1
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 1464836803554648, guid: 806dcbf2bf2b62144bde2a5751910e76, type: 2}
+  - {fileID: 0}
   - {fileID: 1508847269097800, guid: f640c730fa49d5c4c8f6b9c812b223c8, type: 2}
-  - {fileID: 1753089295071182, guid: 2142c05361234b24f8a975f1ef5908e6, type: 2}
+  - {fileID: 1753089295071182, guid: 96debc0d85ecc324d88a09bdf1a0eeff, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 2
   m_ConnectionConfig:

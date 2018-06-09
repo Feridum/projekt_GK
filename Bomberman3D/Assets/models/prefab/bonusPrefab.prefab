@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33814026172176026}
   - component: {fileID: 23900026139868420}
   - component: {fileID: 95211889533654626}
-  - component: {fileID: 114462028243707914}
+  - component: {fileID: 114737947520890588}
   m_Layer: 0
   m_Name: bonusPrefab
   m_TagString: Untagged
@@ -103,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114462028243707914
+--- !u!114 &114737947520890588
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -111,6 +111,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1210659898740006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5ed71f58be9a3841badd4d509397375, type: 3}
+  m_Script: {fileID: 11500000, guid: 99687c1d785efb947bbfd55dbde17501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

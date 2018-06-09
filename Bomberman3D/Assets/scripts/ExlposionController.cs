@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ExlposionController : MonoBehaviour
+public class ExlposionController : NetworkBehaviour
 {
     private HeroController HeroController;
     private GameObject[] heros;
@@ -27,7 +28,7 @@ public class ExlposionController : MonoBehaviour
         if (timer + 0.5 <= Time.time)
         {
             Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 2, Mathf.RoundToInt(this.transform.position.z));
-            currentBonus = Instantiate(bonusPrefab, position, Quaternion.identity);
+            CmdBonus(position);
             // timer = Time.time;
             Destroy(gameObject);
         }
@@ -56,15 +57,22 @@ public class ExlposionController : MonoBehaviour
         bonuses = GameObject.FindGameObjectsWithTag("breakableWall");
         foreach (GameObject bonus in bonuses)
         {
-            if(bonus != null && currentBonus != null)
-            if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
-            {
-                if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+            if (bonus != null && currentBonus != null)
+                if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
                 {
-                    Destroy(bonus);
+                    if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+                    {
+                        Destroy(bonus);
+                    }
                 }
-            }
         }
     }
-}
 
+    [Command]
+    void CmdBonus(Vector3 position)
+    {
+        currentBonus = Instantiate(bonusPrefab, position, Quaternion.identity);
+        NetworkServer.Spawn(currentBonus);
+    }
+
+}

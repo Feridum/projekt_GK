@@ -152,10 +152,18 @@ public class HeroController : NetworkBehaviour
         {
             timer = Time.time;
             anim.SetTrigger("PlantBomb");
-            currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);
-            currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+            CmdBomb(position);
         }
     }
+
+    [Command]
+    void CmdBomb(Vector3 position)
+    {
+        currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);
+        currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+        NetworkServer.Spawn(currentBomb);
+    }
+
     private bool canPlantBomb(Vector3 position)
     {
         if (position.x == 18 || position.x == 15 || position.x == 12 || position.x == 9 || position.x == 6 || position.x == 3 || position.x == 0 || position.x == -18 || position.x == -15 || position.x == -12 || position.x == -9 || position.x == -6 || position.x == -3)

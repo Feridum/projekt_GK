@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BombControllerBeta : MonoBehaviour
+public class BombControllerBeta : NetworkBehaviour
 {
     private Animator anim;
     private float timer;
@@ -29,9 +30,18 @@ public class BombControllerBeta : MonoBehaviour
         createAllExplosion();
         Destroy(this.gameObject);
     }
+
+    
     private void explosionUtil(Vector3 position)
     {
+        CmdBomb(position);
+    }
+
+    [Command]
+    private void CmdBomb(Vector3 position)
+    {
         explosion = (GameObject)Instantiate(explosionPrefab, position, Quaternion.identity);
+        NetworkServer.Spawn(explosion);
     }
 
     private void createAllExplosion()
