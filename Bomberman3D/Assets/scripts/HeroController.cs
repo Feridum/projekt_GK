@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 public class HeroController : NetworkBehaviour
 {
@@ -25,11 +26,16 @@ public class HeroController : NetworkBehaviour
     public int bombLimit = 1;
     private GameObject[] bonuses;
     private GameObject[] bombs;
+    public GameObject breakableWallPrefab;
+    private GameObject currentWall;
+    private GameObject[] breakAbleWalls;
+    private GameObject[] unbreakAbleWalls;
 
 
     // Use this for initialization
     void Start()
     {
+        generateMap();
         anim = gameObject.GetComponent<Animator>();
         startingPosition = target = transform.position;
         rotation = transform.rotation;
@@ -107,16 +113,14 @@ public class HeroController : NetworkBehaviour
 
     private void checkCollisionsWithBonus()
     {
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //@Majki
-        //TODO change tag to bonus
-        //TODO move to breakable Wall
-        bonuses = GameObject.FindGameObjectsWithTag("breakableWall");
+        bonuses = GameObject.FindGameObjectsWithTag("bonus");
         foreach (GameObject bonus in bonuses)
         {
             if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
             {
+                int id = this.transform.GetInstanceID();
                 ++bombLimit;
+                Debug.Log("Add bonus to player" + id);
                 Destroy(bonus);
             }
         }
@@ -190,10 +194,19 @@ public class HeroController : NetworkBehaviour
         bombs = GameObject.FindGameObjectsWithTag("bomb");
         foreach (GameObject bomb in bombs)
         {
-                if ((System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x-3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction<0) || (System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x + 3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction>0))
-                {
+            if ((System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x - 3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction < 0) || (System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x + 3) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z) && direction > 0))
+            {
                 return false;
-                }
+            }
+        }
+
+        breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
+        foreach (GameObject wall in breakAbleWalls)
+        {
+            if ((System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x - 3) && System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z) && direction < 0) || (System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x + 3) && System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z) && direction > 0))
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -219,6 +232,83 @@ public class HeroController : NetworkBehaviour
                 return false;
             }
         }
+        breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
+        foreach (GameObject wall in breakAbleWalls)
+        {
+            if ((System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z - 3) && System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x) && direction < 0) || (System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z + 3) && System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x) && direction > 0))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void generateMap()
+    {
+        System.Random rnd = new System.Random();
+        int iterator = 0;
+        int counter;
+        bool createdWall;
+        for (int i = -18; i <= 18; i += 3)
+        {
+            if (i == -15 || i == -9 || i == -3 || i == 3 || i == 9 || i == 15)
+                counter = 4;
+            else
+                counter = 8;
+
+            breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
+
+            while (iterator < counter)
+            {
+                createdWall = createWall(i);
+                if (createdWall)
+                    ++iterator;
+            }
+            iterator = 0;
+        }
+
+        breakableWallController[] walls = FindObjectsOfType<breakableWallController>();
+        foreach(breakableWallController wall in walls)
+        {
+            int value = rnd.Next(1, 4);
+            Debug.Log(value);
+            if (value >= 1)
+            {
+                wall.isBonus = true;
+            }
+        }
+        
+    }
+
+    private bool createWall(int randValueX)
+    {
+        int randValueZ;
+        Vector3 position;
+        System.Random rnd = new System.Random();
+        randValueZ = rnd.Next(-6, 7);
+        randValueZ *= 3;
+        breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
+        if ((randValueX == -18 && randValueZ == -18) || (randValueX == -18 && randValueZ == -15) || (randValueX == -15 && randValueZ == -18) || (randValueX == 18 && randValueZ == 15) || (randValueX == 15 && randValueZ == 18) || (randValueX == 18 && randValueZ == 18))
+            return false;
+        foreach (GameObject wall in breakAbleWalls)
+        {
+            if (System.Math.Round(wall.transform.position.x) == randValueX && System.Math.Round(wall.transform.position.z) == randValueZ)
+            {
+                return false;
+            }
+        }
+        unbreakAbleWalls = GameObject.FindGameObjectsWithTag("unbreakableWall");
+        foreach (GameObject wall in unbreakAbleWalls)
+        {
+            if (System.Math.Round(wall.transform.position.x) == randValueX && System.Math.Round(wall.transform.position.z) == randValueZ)
+            {
+                return false;
+            }
+        }
+
+        position = new Vector3(Mathf.RoundToInt(randValueX), 1, Mathf.RoundToInt(randValueZ));
+        currentWall = (GameObject)Instantiate(breakableWallPrefab, position, Quaternion.identity, transform.parent);
+
         return true;
     }
 }

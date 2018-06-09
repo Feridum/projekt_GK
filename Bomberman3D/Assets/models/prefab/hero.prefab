@@ -726,6 +726,8 @@ MonoBehaviour:
   plantBomb: 32
   bombPrefab: {fileID: 1926121965875018, guid: cbbcf8281744e3c40a93032f075e1b20, type: 2}
   bombLimit: 1
+  breakableWallPrefab: {fileID: 1508847269097800, guid: f640c730fa49d5c4c8f6b9c812b223c8,
+    type: 2}
 --- !u!114 &114723341731931766
 MonoBehaviour:
   m_ObjectHideFlags: 1

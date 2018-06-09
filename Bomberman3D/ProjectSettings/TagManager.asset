@@ -9,6 +9,8 @@ TagManager:
   - breagableWall
   - breakableWall
   - bonus
+  - Fire
+  - unbreakableWall
   layers:
   - Default
   - TransparentFX

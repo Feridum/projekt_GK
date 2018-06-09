@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 54960052411693864}
   - component: {fileID: 114430525359668312}
   - component: {fileID: 114884939960953438}
+  - component: {fileID: 131551844986644620}
   m_Layer: 0
   m_Name: Explosion03a
   m_TagString: Untagged
@@ -135,8 +136,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombPositionX: 0
   bombPositionY: 0
-  bonusPrefab: {fileID: 1508847269097800, guid: f640c730fa49d5c4c8f6b9c812b223c8,
+  bonusPrefab: {fileID: 1647082767396230, guid: eee9041d922f49b4b8d43ee4d0b783c3,
     type: 2}
+--- !u!131 &131551844986644620
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753089295071182}
+  m_Enabled: 0
+  m_Texture: {fileID: 2800000, guid: 4fc07b95f512aa4448715cf0bf65b890, type: 3}
+  m_Color: {r: 1, g: 0.11792451, b: 0.11792451, a: 0.5}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!198 &198031077275740270
 ParticleSystem:
   m_ObjectHideFlags: 1

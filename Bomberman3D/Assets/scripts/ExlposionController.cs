@@ -13,6 +13,7 @@ public class ExlposionController : NetworkBehaviour
     public int bombPositionY;
     public GameObject bonusPrefab;
     private GameObject currentBonus;
+    private GameObject[] breakableWalls;
 
     private float timer;
     // Use this for initialization
@@ -20,6 +21,7 @@ public class ExlposionController : NetworkBehaviour
     {
         HeroController = FindObjectOfType<HeroController>();
         timer = Time.time;
+        currentBonus = Instantiate(bonusPrefab, new Vector3(0,0,0), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -27,12 +29,31 @@ public class ExlposionController : NetworkBehaviour
     {
         if (timer + 0.5 <= Time.time)
         {
-            Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 2, Mathf.RoundToInt(this.transform.position.z));
-            CmdBonus(position);
             // timer = Time.time;
             Destroy(gameObject);
         }
-        //TODO check position of breakable wall
+
+        breakableWalls = GameObject.FindGameObjectsWithTag("breakableWall");
+        foreach (GameObject wall in breakableWalls)
+        {
+            if (System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z))
+            {
+                breakableWallController[] wallBonus = FindObjectsOfType<breakableWallController>();
+                foreach(breakableWallController bonus in wallBonus)
+                {
+                    if (bonus.isBonus)
+                    {
+                        if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(wall.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(wall.transform.position.z))
+                        {
+                            Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 1, Mathf.RoundToInt(this.transform.position.z));
+                            CmdBonus(position);
+                        }
+                    }
+                } 
+                Destroy(wall);
+            }
+        }
+
         heros = GameObject.FindGameObjectsWithTag("hero");
         foreach (GameObject hero in heros)
         {
@@ -52,9 +73,7 @@ public class ExlposionController : NetworkBehaviour
             }
         }
 
-        //TOTO change tag to bonus
-
-        bonuses = GameObject.FindGameObjectsWithTag("breakableWall");
+        bonuses = GameObject.FindGameObjectsWithTag("bonus");
         foreach (GameObject bonus in bonuses)
         {
             if (bonus != null && currentBonus != null)
@@ -67,12 +86,10 @@ public class ExlposionController : NetworkBehaviour
                 }
         }
     }
-
     [Command]
     void CmdBonus(Vector3 position)
     {
         currentBonus = Instantiate(bonusPrefab, position, Quaternion.identity);
         NetworkServer.Spawn(currentBonus);
     }
-
 }
