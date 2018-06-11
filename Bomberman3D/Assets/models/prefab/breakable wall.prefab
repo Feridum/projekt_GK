@@ -129,7 +129,7 @@ MonoBehaviour:
     i14: 35
     i15: 200
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114770325273591868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,4 +141,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f9a78284ec9f7468b9a4ecb9f1b3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusPrefab: {fileID: 1508847269097800}
+  isBonus: 0
