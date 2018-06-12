@@ -5,50 +5,78 @@ using UnityEngine.Networking;
 
 public class ExlposionController : NetworkBehaviour
 {
-    private HeroController HeroController;
     private GameObject[] heros;
     private GameObject[] bombs;
-    private GameObject[] bonuses;
+    private BonusScript[] bonuses;
     public int bombPositionX;
     public int bombPositionY;
     public GameObject bonusPrefab;
     private GameObject currentBonus;
     private GameObject[] breakableWalls;
+    private bool exploded = false;
 
     private float timer;
     // Use this for initialization
     void Start()
     {
-        HeroController = FindObjectOfType<HeroController>();
         timer = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        System.Random rnd = new System.Random();
         if (timer + 0.5 <= Time.time)
         {
             // timer = Time.time;
             Destroy(gameObject);
         }
 
+        if (!exploded)
+        {
+            exploded = true;
+            bonuses = GameObject.FindObjectsOfType<BonusScript>();
+            foreach (BonusScript bonus in bonuses)
+            {
+                if (currentBonus == null)
+                {
+                    if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+                    {
+                        Destroy(bonus.gameObject);
+                        continue;
+                    }
+                }
+                if (bonus != null && currentBonus != null)
+                    if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
+                    {
+                        if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
+                        {
+                            Destroy(bonus.gameObject);
+                        }
+                    }
+            }
+        }
         breakableWalls = GameObject.FindGameObjectsWithTag("breakableWall");
         foreach (GameObject wall in breakableWalls)
         {
             if (System.Math.Round(wall.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(wall.transform.position.z) == System.Math.Round(this.transform.position.z))
             {
                 breakableWallController[] wallBonus = FindObjectsOfType<breakableWallController>();
-                foreach(breakableWallController bonus in wallBonus)
+                foreach (breakableWallController bonus in wallBonus)
                 {
-                    if (bonus.isBonus)
+                    if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(wall.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(wall.transform.position.z))
                     {
-                        if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(wall.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(wall.transform.position.z))
+                        if (bonus.isBonus)
                         {
-                            Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 1, Mathf.RoundToInt(this.transform.position.z));
+
+                            Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 0, Mathf.RoundToInt(this.transform.position.z));
                             CmdBonus(position);
+
                         }
+
                     }
-                } 
+                }
+
                 Destroy(wall);
             }
         }
@@ -72,26 +100,7 @@ public class ExlposionController : NetworkBehaviour
             }
         }
 
-        bonuses = GameObject.FindGameObjectsWithTag("bonus");
-        foreach (GameObject bonus in bonuses)
-        {
-            if (currentBonus == null)
-            {
-                if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
-                {
-                    Destroy(bonus);
-                    continue;
-                }
-            }
-            if (bonus != null && currentBonus != null)
-                if (bonus.GetInstanceID() != currentBonus.GetInstanceID())
-                {
-                    if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
-                    {
-                        Destroy(bonus);
-                    }
-                }
-        }
+
     }
     [Command]
     void CmdBonus(Vector3 position)

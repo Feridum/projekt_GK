@@ -6,6 +6,7 @@ using System;
 
 public class HeroController : NetworkBehaviour
 {
+
     private float timer;
     private Animator anim;
     private float t;
@@ -104,23 +105,28 @@ public class HeroController : NetworkBehaviour
                 tryAddBomb();
             }
 
-            t += Time.deltaTime / moveSpeed;
+        }
+        checkCollisionsWithBonus();
+        if(this.isLocalPlayer)
+        { 
+        // checkCollisionsWithBonus();
+        t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
-            checkCollisionsWithBonus();
+            
         }
     }
 
     private void checkCollisionsWithBonus()
     {
-        bonuses = GameObject.FindGameObjectsWithTag("bonus");
-        foreach (GameObject bonus in bonuses)
+        BonusScript[] bonuses = GameObject.FindObjectsOfType<BonusScript>();
+        foreach (BonusScript bonus in bonuses)
         {
             if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
             {
                 int id = this.transform.GetInstanceID();
                 ++bombLimit;
-                Destroy(bonus);
+                Destroy(bonus.gameObject);
             }
         }
     }

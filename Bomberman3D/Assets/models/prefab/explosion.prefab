@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombPositionX: 0
   bombPositionY: 0
-  bonusPrefab: {fileID: 1922767412375032, guid: 39ea2d3dc38ccf840ab33a65486cc299,
+  bonusPrefab: {fileID: 1295123118133448, guid: 39ea2d3dc38ccf840ab33a65486cc299,
     type: 2}
 --- !u!198 &198186072712289024
 ParticleSystem:
