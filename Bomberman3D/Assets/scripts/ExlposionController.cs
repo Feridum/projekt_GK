@@ -68,15 +68,11 @@ public class ExlposionController : NetworkBehaviour
                     {
                         if (bonus.isBonus)
                         {
-
                             Vector3 position = new Vector3(Mathf.RoundToInt(this.transform.position.x), 0, Mathf.RoundToInt(this.transform.position.z));
                             CmdBonus(position);
-
                         }
-
                     }
                 }
-
                 Destroy(wall);
             }
         }
@@ -102,7 +98,7 @@ public class ExlposionController : NetworkBehaviour
 
 
     }
-    [Command]
+    [Command(channel = 1)]
     void CmdBonus(Vector3 position)
     {
         currentBonus = Instantiate(bonusPrefab, position, Quaternion.identity);

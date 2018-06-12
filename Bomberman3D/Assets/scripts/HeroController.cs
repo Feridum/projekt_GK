@@ -36,7 +36,7 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-       
+
         anim = gameObject.GetComponent<Animator>();
         startingPosition = target = transform.position;
         rotation = transform.rotation;
@@ -107,13 +107,13 @@ public class HeroController : NetworkBehaviour
 
         }
         checkCollisionsWithBonus();
-        if(this.isLocalPlayer)
-        { 
-        // checkCollisionsWithBonus();
-        t += Time.deltaTime / moveSpeed;
+        if (this.isLocalPlayer)
+        {
+            // checkCollisionsWithBonus();
+            t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
-            
+
         }
     }
 
@@ -135,7 +135,7 @@ public class HeroController : NetworkBehaviour
     {
         if (timer + 0.5 <= Time.time)
         {
-            countPlayerBombs();
+            bombCount = countPlayerBombs();
             if (bombCount < bombLimit)
             {
                 Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), 0, Mathf.RoundToInt(transform.position.z));
@@ -144,15 +144,24 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    private void countPlayerBombs()
+    private int countPlayerBombs()
     {
-        playersID = FindObjectsOfType<IdPlayer>();
-        bombCount = 0;
-        foreach (IdPlayer player in playersID)
+        //playersID = FindObjectsOfType<IdPlayer>();
+        //int temp = 0;
+        //foreach (IdPlayer player in playersID)
+        //{
+        //    if (player.ID == this.GetInstanceID())
+        //        temp++;
+        //}
+        //return temp;
+        BombControllerBeta[] bom = FindObjectsOfType<BombControllerBeta>();
+        int temp = 0;
+        foreach (BombControllerBeta bomb in bom)
         {
-            if (player.ID == this.GetInstanceID())
-                bombCount++;
+            if (bomb.playerID == this.GetInstanceID())
+                temp++;
         }
+        return temp;
     }
 
     private void addBomb(Vector3 position)
@@ -165,11 +174,19 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    [Command]
+    [Command(channel = 0)]
     void CmdBomb(Vector3 position)
     {
-        currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);
-        currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+        currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);//todo get all bombs check position and add field
+        BombControllerBeta[] bom = FindObjectsOfType<BombControllerBeta>();
+        foreach (BombControllerBeta bomb in bom)
+        {
+            if (System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z))
+            {
+                bomb.playerID = this.GetInstanceID();
+            }
+        }
+        //currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
         NetworkServer.Spawn(currentBomb);
     }
 
