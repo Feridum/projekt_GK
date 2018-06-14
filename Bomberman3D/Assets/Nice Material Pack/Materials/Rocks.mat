@@ -7,12 +7,12 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Rocks
-  m_Shader: {fileID: 4800000, guid: 522da38776d4543bfa59446ef10d4f70, type: 3}
-  m_ShaderKeywords: _GRAY_ON
-  m_LightmapFlags: 5
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _EMISSION _GRAY_ON _METALLICGLOSSMAP
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d5a51525b27e3ee4aadbeb39cbcf0750, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -86,17 +86,21 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Gloss: 0.8
+    - _GlossMapScale: 1
     - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _Gray: 1
     - _LightReflectance: 0.794
     - _Metallic: 0
     - _Mode: 0
-    - _NormalSharpness: 0
+    - _NormalSharpness: 0.179
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Response: 0
     - _Roughness: 0.618
-    - _Shadows: 0.858
+    - _Shadows: 0.692
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
     - _Specularity: 0.193
     - _SrcBlend: 1
     - _UVSec: 0
@@ -114,8 +118,8 @@ Material:
     - _node_7829: 0
     - _node_8632: 1
     m_Colors:
-    - _Color: {r: 0.8720926, g: 0.8590691, b: 0.9339623, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.10261647, b: 0.8962264, a: 1}
+    - _EmissionColor: {r: 0.105882354, g: 0.023529412, b: 0.023529412, a: 1}
     - _node_1071: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _node_2885: {r: 0.5147059, g: 0.4200909, b: 0.4200909, a: 1}
     - _node_528: {r: 0.5, g: 0.5, b: 0.5, a: 1}

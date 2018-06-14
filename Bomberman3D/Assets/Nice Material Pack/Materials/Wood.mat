@@ -90,12 +90,12 @@ Material:
     - _LightReflectance: 0.794
     - _Metallic: 0
     - _Mode: 0
-    - _NormalSharpness: 0.26
+    - _NormalSharpness: 0.007
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Roughness: 0.618
-    - _Shadows: 0.811
-    - _Specularity: 0.341
+    - _Shadows: 0.88
+    - _Specularity: 0.57
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
