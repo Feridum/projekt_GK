@@ -42,6 +42,14 @@ public class HeroController : NetworkBehaviour
         rotation = transform.rotation;
         timer = Time.time;
     }
+    public override void OnStartLocalPlayer()
+    {
+        SkinnedMeshRenderer[] elements = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        foreach (SkinnedMeshRenderer element in elements)
+            element.material.SetColor("_Color", Color.blue);
+    }
+
 
     // Update is called once per frame
     void Update()
