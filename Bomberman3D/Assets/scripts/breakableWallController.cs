@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public class breakableWallController : MonoBehaviour
+public class breakableWallController : NetworkBehaviour
 {
     public bool isBonus;
 	// Use this for initialization

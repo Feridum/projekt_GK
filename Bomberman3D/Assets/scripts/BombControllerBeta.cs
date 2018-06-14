@@ -9,6 +9,9 @@ public class BombControllerBeta : NetworkBehaviour
     private float timer;
     public GameObject explosionPrefab;
     private GameObject explosion;
+
+    [SyncVar]
+    public int playerID;
     // Use this for initialization
     void Start()
     {
@@ -37,7 +40,7 @@ public class BombControllerBeta : NetworkBehaviour
         CmdBomb(position);
     }
 
-    [Command]
+    [Command(channel = 2)]
     private void CmdBomb(Vector3 position)
     {
         explosion = (GameObject)Instantiate(explosionPrefab, position, Quaternion.identity);

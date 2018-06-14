@@ -64,14 +64,17 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 1352575243138226, guid: 4f084ef2480a00b4592bd4935ecc26a5,
     type: 2}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 1
+  m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 0}
+  - {fileID: 1926121965875018, guid: cbbcf8281744e3c40a93032f075e1b20, type: 2}
   - {fileID: 1508847269097800, guid: f640c730fa49d5c4c8f6b9c812b223c8, type: 2}
-  - {fileID: 1753089295071182, guid: 96debc0d85ecc324d88a09bdf1a0eeff, type: 2}
-  m_CustomConfig: 1
+  - {fileID: 1767019830691272, guid: a7fde17c6ede13648aef189efe09ef39, type: 2}
+  - {fileID: 1046888728742880, guid: 63a547706170c4343878cd2f23db9e49, type: 2}
+  - {fileID: 1295123118133448, guid: 39ea2d3dc38ccf840ab33a65486cc299, type: 2}
+  - {fileID: 0}
+  m_CustomConfig: 0
   m_MaxConnections: 2
   m_ConnectionConfig:
     m_PacketSize: 1440

@@ -6,6 +6,7 @@ using System;
 
 public class HeroController : NetworkBehaviour
 {
+
     private float timer;
     private Animator anim;
     private float t;
@@ -35,15 +36,23 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        generateMap();
+
         anim = gameObject.GetComponent<Animator>();
         startingPosition = target = transform.position;
         rotation = transform.rotation;
         timer = Time.time;
     }
+    public override void OnStartLocalPlayer()
+    {
+        SkinnedMeshRenderer[] elements = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        foreach (SkinnedMeshRenderer element in elements)
+            element.material.SetColor("_Color", Color.blue);
+    }
+
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (this.isLocalPlayer)
         {
@@ -104,24 +113,28 @@ public class HeroController : NetworkBehaviour
                 tryAddBomb();
             }
 
+        }
+        checkCollisionsWithBonus();
+        if (this.isLocalPlayer)
+        {
+            // checkCollisionsWithBonus();
             t += Time.deltaTime / moveSpeed;
             transform.position = Vector3.Lerp(transform.position, target, t);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed);
-            checkCollisionsWithBonus();
+
         }
     }
 
     private void checkCollisionsWithBonus()
     {
-        bonuses = GameObject.FindGameObjectsWithTag("bonus");
-        foreach (GameObject bonus in bonuses)
+        BonusScript[] bonuses = GameObject.FindObjectsOfType<BonusScript>();
+        foreach (BonusScript bonus in bonuses)
         {
             if (System.Math.Round(bonus.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bonus.transform.position.z) == System.Math.Round(this.transform.position.z))
             {
                 int id = this.transform.GetInstanceID();
                 ++bombLimit;
-                Debug.Log("Add bonus to player" + id);
-                Destroy(bonus);
+                Destroy(bonus.gameObject);
             }
         }
     }
@@ -130,7 +143,7 @@ public class HeroController : NetworkBehaviour
     {
         if (timer + 0.5 <= Time.time)
         {
-            countPlayerBombs();
+            bombCount = countPlayerBombs();
             if (bombCount < bombLimit)
             {
                 Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), 0, Mathf.RoundToInt(transform.position.z));
@@ -139,15 +152,24 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    private void countPlayerBombs()
+    private int countPlayerBombs()
     {
-        playersID = FindObjectsOfType<IdPlayer>();
-        bombCount = 0;
-        foreach (IdPlayer player in playersID)
+        //playersID = FindObjectsOfType<IdPlayer>();
+        //int temp = 0;
+        //foreach (IdPlayer player in playersID)
+        //{
+        //    if (player.ID == this.GetInstanceID())
+        //        temp++;
+        //}
+        //return temp;
+        BombControllerBeta[] bom = FindObjectsOfType<BombControllerBeta>();
+        int temp = 0;
+        foreach (BombControllerBeta bomb in bom)
         {
-            if (player.ID == this.GetInstanceID())
-                bombCount++;
+            if (bomb.playerID == this.GetInstanceID())
+                temp++;
         }
+        return temp;
     }
 
     private void addBomb(Vector3 position)
@@ -160,11 +182,19 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    [Command]
+    [Command(channel = 0)]
     void CmdBomb(Vector3 position)
     {
-        currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);
-        currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
+        currentBomb = (GameObject)Instantiate(bombPrefab, position, Quaternion.identity, transform.parent);//todo get all bombs check position and add field
+        BombControllerBeta[] bom = FindObjectsOfType<BombControllerBeta>();
+        foreach (BombControllerBeta bomb in bom)
+        {
+            if (System.Math.Round(bomb.transform.position.x) == System.Math.Round(this.transform.position.x) && System.Math.Round(bomb.transform.position.z) == System.Math.Round(this.transform.position.z))
+            {
+                bomb.playerID = this.GetInstanceID();
+            }
+        }
+        //currentBomb.AddComponent<IdPlayer>().ID = this.GetInstanceID();
         NetworkServer.Spawn(currentBomb);
     }
 
@@ -240,75 +270,6 @@ public class HeroController : NetworkBehaviour
                 return false;
             }
         }
-        return true;
-    }
-
-    private void generateMap()
-    {
-        System.Random rnd = new System.Random();
-        int iterator = 0;
-        int counter;
-        bool createdWall;
-        for (int i = -18; i <= 18; i += 3)
-        {
-            if (i == -15 || i == -9 || i == -3 || i == 3 || i == 9 || i == 15)
-                counter = 4;
-            else
-                counter = 8;
-
-            breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
-
-            while (iterator < counter)
-            {
-                createdWall = createWall(i);
-                if (createdWall)
-                    ++iterator;
-            }
-            iterator = 0;
-        }
-
-        breakableWallController[] walls = FindObjectsOfType<breakableWallController>();
-        foreach(breakableWallController wall in walls)
-        {
-            int value = rnd.Next(1, 4);
-            Debug.Log(value);
-            if (value >= 1)
-            {
-                wall.isBonus = true;
-            }
-        }
-        
-    }
-
-    private bool createWall(int randValueX)
-    {
-        int randValueZ;
-        Vector3 position;
-        System.Random rnd = new System.Random();
-        randValueZ = rnd.Next(-6, 7);
-        randValueZ *= 3;
-        breakAbleWalls = GameObject.FindGameObjectsWithTag("breakableWall");
-        if ((randValueX == -18 && randValueZ == -18) || (randValueX == -18 && randValueZ == -15) || (randValueX == -15 && randValueZ == -18) || (randValueX == 18 && randValueZ == 15) || (randValueX == 15 && randValueZ == 18) || (randValueX == 18 && randValueZ == 18))
-            return false;
-        foreach (GameObject wall in breakAbleWalls)
-        {
-            if (System.Math.Round(wall.transform.position.x) == randValueX && System.Math.Round(wall.transform.position.z) == randValueZ)
-            {
-                return false;
-            }
-        }
-        unbreakAbleWalls = GameObject.FindGameObjectsWithTag("unbreakableWall");
-        foreach (GameObject wall in unbreakAbleWalls)
-        {
-            if (System.Math.Round(wall.transform.position.x) == randValueX && System.Math.Round(wall.transform.position.z) == randValueZ)
-            {
-                return false;
-            }
-        }
-
-        position = new Vector3(Mathf.RoundToInt(randValueX), 1, Mathf.RoundToInt(randValueZ));
-        currentWall = (GameObject)Instantiate(breakableWallPrefab, position, Quaternion.identity, transform.parent);
-
         return true;
     }
 }
