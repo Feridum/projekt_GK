@@ -31,6 +31,8 @@ public class HeroController : NetworkBehaviour
     private GameObject currentWall;
     private GameObject[] breakAbleWalls;
     private GameObject[] unbreakAbleWalls;
+    public GameObject heroPrefab;
+    public GameObject[] heros;
 
 
     // Use this for initialization
@@ -56,63 +58,66 @@ public class HeroController : NetworkBehaviour
     {
         if (this.isLocalPlayer)
         {
-            if (!(Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight)))
+            heros = GameObject.FindGameObjectsWithTag("hero");
+            if (heros.Length == 2)
             {
-                anim.SetTrigger("Stop");
-            }
-
-            if (target == transform.position)
-            {
-                t = 0;
-                startingPosition = transform.position;
-                rotation = transform.rotation;
-                if (Input.GetKey(moveLeft))
+                if (!(Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight)))
                 {
-                    target = startingPosition;
-                    if (canMoveInX(target, -1))
-                    {
-                        target.x += -3;
-                    }
-                    rotation = Quaternion.Euler(0, 90, 0);
-                    anim.SetTrigger("Move");
-                }
-                else if (Input.GetKey(moveRight))
-                {
-                    target = startingPosition;
-                    if (canMoveInX(target, 1))
-                    {
-                        target.x += 3;
-                    }
-                    rotation = Quaternion.Euler(0, -90, 0);
-                    anim.SetTrigger("Move");
-                }
-                else if (Input.GetKey(moveUp))
-                {
-                    target = startingPosition;
-                    if (canMoveInZ(target, 1))
-                    {
-                        target.z += 3;
-                    }
-                    rotation = Quaternion.Euler(0, 180, 0);
-                    anim.SetTrigger("Move");
-                }
-                else if (Input.GetKey(moveDown))
-                {
-                    target = startingPosition;
-                    if (canMoveInZ(target, -1))
-                    {
-                        target.z += -3;
-                    }
-                    rotation = Quaternion.Euler(0, 0, 0);
-                    anim.SetTrigger("Move");
+                    anim.SetTrigger("Stop");
                 }
 
-            }
-            if (Input.GetKey(plantBomb))
-            {
-                tryAddBomb();
-            }
+                if (target == transform.position)
+                {
+                    t = 0;
+                    startingPosition = transform.position;
+                    rotation = transform.rotation;
+                    if (Input.GetKey(moveLeft))
+                    {
+                        target = startingPosition;
+                        if (canMoveInX(target, -1))
+                        {
+                            target.x += -3;
+                        }
+                        rotation = Quaternion.Euler(0, 90, 0);
+                        anim.SetTrigger("Move");
+                    }
+                    else if (Input.GetKey(moveRight))
+                    {
+                        target = startingPosition;
+                        if (canMoveInX(target, 1))
+                        {
+                            target.x += 3;
+                        }
+                        rotation = Quaternion.Euler(0, -90, 0);
+                        anim.SetTrigger("Move");
+                    }
+                    else if (Input.GetKey(moveUp))
+                    {
+                        target = startingPosition;
+                        if (canMoveInZ(target, 1))
+                        {
+                            target.z += 3;
+                        }
+                        rotation = Quaternion.Euler(0, 180, 0);
+                        anim.SetTrigger("Move");
+                    }
+                    else if (Input.GetKey(moveDown))
+                    {
+                        target = startingPosition;
+                        if (canMoveInZ(target, -1))
+                        {
+                            target.z += -3;
+                        }
+                        rotation = Quaternion.Euler(0, 0, 0);
+                        anim.SetTrigger("Move");
+                    }
 
+                }
+                if (Input.GetKey(plantBomb))
+                {
+                    tryAddBomb();
+                }
+            }
         }
         checkCollisionsWithBonus();
         if (this.isLocalPlayer)
