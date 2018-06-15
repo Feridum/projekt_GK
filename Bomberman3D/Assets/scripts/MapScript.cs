@@ -46,8 +46,8 @@ public class MapScript : NetworkBehaviour {
         breakableWallController[] walls = FindObjectsOfType<breakableWallController>();
         foreach (breakableWallController wall in walls)
         {
-            int value = rnd.Next(1, 4);
-            if (value >= 1)
+            int value = rnd.Next(1, 7);
+            if (value == 1)
             {
                 wall.isBonus = true;
             }
