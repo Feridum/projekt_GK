@@ -59,7 +59,8 @@ public class HeroController : NetworkBehaviour
         if (this.isLocalPlayer)
         {
             heros = GameObject.FindGameObjectsWithTag("hero");
-            if (heros.Length == 2)
+           // if (heros.Length == 2)
+            if(true) //TODO chage to line above (only for tests)
             {
                 if (!(Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight)))
                 {
