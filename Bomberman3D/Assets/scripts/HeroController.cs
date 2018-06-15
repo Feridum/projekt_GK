@@ -31,7 +31,6 @@ public class HeroController : NetworkBehaviour
     private GameObject currentWall;
     private GameObject[] breakAbleWalls;
     private GameObject[] unbreakAbleWalls;
-    public GameObject heroPrefab;
     public GameObject[] heros;
 
 
@@ -41,6 +40,8 @@ public class HeroController : NetworkBehaviour
 
         anim = gameObject.GetComponent<Animator>();
         startingPosition = target = transform.position;
+
+
         rotation = transform.rotation;
         timer = Time.time;
     }
@@ -50,17 +51,42 @@ public class HeroController : NetworkBehaviour
 
         foreach (SkinnedMeshRenderer element in elements)
             element.material.SetColor("_Color", Color.blue);
+        setStartPosition();
+    }
+
+    private void setStartPosition()
+    {
+        heros = GameObject.FindGameObjectsWithTag("hero");
+        if (heros.Length == 2)
+        {
+            GameObject hero1 = heros[0];
+            GameObject hero2 = heros[1];
+            if (System.Math.Round(hero1.transform.position.x) == System.Math.Round(hero2.transform.position.x))
+            {
+                if (System.Math.Round(hero1.transform.position.x) == 18)
+                {
+                    Vector3 position = new Vector3(-18, this.transform.position.y, -18);
+                    hero1.transform.position = position;
+                }
+                else
+                {
+                    Vector3 position = new Vector3(18, this.transform.position.y, 18);
+                    hero1.transform.position = position;
+                }
+
+            }
+        }
     }
 
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (this.isLocalPlayer)
         {
             heros = GameObject.FindGameObjectsWithTag("hero");
-           // if (heros.Length == 2)
-            if(true) //TODO chage to line above (only for tests)
+            if (heros.Length == 2)
+            // if (true) //TODO chage to line above (only for tests)
             {
                 if (!(Input.GetKeyUp(moveDown) || Input.GetKeyUp(moveUp) || Input.GetKeyUp(moveLeft) || Input.GetKeyUp(moveRight)))
                 {
