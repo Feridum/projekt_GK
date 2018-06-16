@@ -63,15 +63,15 @@ public class HeroController : NetworkBehaviour
             GameObject hero2 = heros[1];
             if (System.Math.Round(hero1.transform.position.x) == System.Math.Round(hero2.transform.position.x))
             {
-                if (System.Math.Round(hero1.transform.position.x) == 18)
+                if (System.Math.Round(hero2.transform.position.x) == 18)
                 {
                     Vector3 position = new Vector3(-18, this.transform.position.y, -18);
-                    hero1.transform.position = position;
+                    hero2.transform.position = position;
                 }
                 else
                 {
                     Vector3 position = new Vector3(18, this.transform.position.y, 18);
-                    hero1.transform.position = position;
+                    hero2.transform.position = position;
                 }
 
             }
